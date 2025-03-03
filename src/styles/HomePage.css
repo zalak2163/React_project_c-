@@ -1,0 +1,209 @@
+/* Global Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Body Setup */
+body {
+    font-family: 'Arial', sans-serif;
+    line-height: 1.6;
+    background-color: #f4f4f4;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* Ensure home-page takes full height to push footer down */
+.home-page {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+/* Hero Section */
+.hero {
+    position: relative;
+    background-image: url('../images/hero_light.webp'); /* Ensure the path is correct */
+    background-size: cover;
+    background-position: center;
+    height: 100vh;  /* Full height of the viewport */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+/* Darken the header background with a semi-transparent overlay */
+.hero::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5); /* Darkens the background */
+    z-index: 0; /* Place it behind the content */
+}
+
+/* Hero content (text and search bar) */
+.hero-content {
+    text-align: center;
+    z-index: 1; /* Ensure content is above the background overlay */
+    padding: 0 20px;  /* Add some padding to the sides */
+}
+
+.hero h1 {
+    font-size: 5rem; /* Increase font size */
+    margin-bottom: 1.5rem; /* Increase space between title and subtitle */
+}
+
+.hero p {
+    font-size: 3rem; /* Increase subtitle font size */
+    margin-bottom: 2rem; /* Space below the subtitle */
+}
+
+/* Search Bar */
+.search-bar {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    max-width: 800px; /* Adjust search bar width */
+    margin: 0 auto;
+    padding: 10px 20px;
+}
+
+.search-bar input {
+    padding: 10px;
+    font-size: 1.2rem;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    width: 300px;  /* Ensure inputs are wide enough */
+}
+
+.search-bar input[type="date"] {
+    width: 200px;  /* You can adjust the width of the date input */
+}
+
+/* Header */
+.header-content {
+    position: fixed; /* Keeps the header fixed at the top */
+    top: 0;
+    left: 0;
+    background-color: #333; /* Dark background like in login/signup */
+    color: white;
+    padding: 20px 40px; /* Adjust padding for better alignment */
+    display: inline-flex;
+    justify-content: space-between; /* Space between logo and navigation */
+    z-index: 1000; /* Ensure it's always on top */
+    width: 100%; /* Full width of the page */
+}
+
+/* Logo */
+.logo {
+    font-size: 2rem; /* Same size as in login/signup pages */
+    font-weight: bold;
+    color: white;
+    flex-shrink: 0; /* Prevent logo from shrinking */
+}
+
+/* Navigation */
+.navigation {
+    display: flex;
+    gap: 30px; /* Space between navigation items */
+    justify-content: flex-end; /* Align items to the right */
+    align-items: center; /* Ensure all items are vertically centered */
+}
+
+/* Navigation Links */
+.navigation ul {
+    display: flex;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.navigation ul li {
+    display: inline-block;
+}
+
+.navigation ul li a {
+    color: white;
+    text-decoration: none;
+    font-size: 1.3rem; /* Adjusted to match login/signup pages */
+    font-weight: bold;
+    padding: 10px 15px; /* Padding for better clickability */
+    border-radius: 4px;
+    transition: all 0.3s ease; /* Smooth hover transition */
+}
+
+.navigation ul li a:hover {
+    background-color: #61dafb; /* Blue hover effect similar to login/signup */
+    color: #333; /* Dark text on hover */
+}
+
+/* For Mobile Responsiveness */
+@media (max-width: 768px) {
+    header {
+        padding: 20px 10px; /* Reduce padding on mobile */
+    }
+
+    .navigation {
+        gap: 20px; /* Smaller gap for mobile */
+    }
+
+    .navigation ul li a {
+        font-size: 1.1rem; /* Slightly smaller font on mobile */
+        padding: 8px 12px; /* Adjust padding for smaller screens */
+    }
+}
+
+/* Events Section */
+.events {
+    padding: 2rem 5%;
+    background-color: white;
+    flex-grow: 1;
+}
+
+/* Footer Section */
+footer {
+    background-color: #333;
+    color: white;
+    padding: 2rem 0;
+    text-align: center;
+    margin-top: auto;
+}
+
+.footer-links {
+    margin-bottom: 1rem;
+}
+
+.footer-links a {
+    color: white;
+    text-decoration: none;
+    margin: 0 1rem;
+    font-size: 1rem;
+}
+
+.footer-links a:hover {
+    border-bottom: 2px solid #feb47b;
+}
+
+.social-icons {
+    margin-top: 1rem;
+}
+
+.social-icons a {
+    color: white;
+    font-size: 1.5rem;
+    margin: 0 1rem;
+    transition: transform 0.3s ease;
+}
+
+.social-icons a:hover {
+    transform: scale(1.2);
+}

@@ -1,0 +1,175 @@
+/* General Page Setup */
+.event-detail-page {
+  font-family: 'Arial', sans-serif;
+  background-color: #f4f6f9;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  min-height: 100vh; /* Ensure the footer stays at the bottom */
+  box-sizing: border-box;
+  margin-top: 70px; /* To prevent content from being hidden under the header */
+}
+
+/* Header */
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: #333;
+  color: white;
+  padding: 10px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 1000;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.header .logo h1 {
+  font-size: 1.6rem; /* Adjusted logo size */
+  margin: 0;
+  font-weight: 700;
+}
+
+.nav {
+  display: flex;
+  gap: 15px;
+}
+
+.nav a {
+  color: white;
+  text-decoration: none;
+  font-size: 1rem;
+  padding: 8px 12px;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.nav a:hover {
+  background-color: #ff5722;
+}
+
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .nav {
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 10px;
+  }
+}
+
+/* Event Details Section */
+.event-details {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  align-items: flex-start;
+  margin-top: 90px; /* Space for fixed header */
+  background-color: white;
+  padding: 20px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  width: 100%;
+  max-width: 750px;  /* Smaller card */
+  margin: 20px auto;
+  flex-wrap: wrap;
+}
+
+.event-image {
+  width: 100%;
+  max-width: 350px; /* Reduced image size */
+  height: 200px;  /* Smaller image height */
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+.event-description {
+  flex: 1;
+  padding-left: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.event-description h2 {
+  margin-bottom: 15px;
+  font-size: 1.7rem;  /* Smaller heading */
+}
+
+.event-description p {
+  margin-bottom: 10px;
+  font-size: 1rem;  /* Adjusted font size */
+}
+
+.ticket-types {
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.ticket-option {
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.ticket-option:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+.quantity-selector {
+  margin: 10px 0;
+}
+
+.quantity-selector input {
+  width: 50px;
+  padding: 5px;
+  text-align: center;
+}
+
+.checkout-container {
+  margin-top: 30px;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.checkout-container button {
+  background-color: #ff5722;
+  color: white;
+  padding: 10px 20px;
+  font-size: 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  width: 100%;
+  max-width: 250px;
+}
+
+.checkout-container button:hover {
+  background-color: #e64a19;
+}
+
+/* Footer */
+.footer {
+  background-color: #333;
+  color: white;
+  text-align: center;
+  padding: 20px;
+  width: 100%;
+  position: relative;
+  margin-top: auto; /* Ensures the footer stays at the bottom */
+}

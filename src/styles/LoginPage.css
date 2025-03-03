@@ -1,0 +1,184 @@
+/* General Body and Background */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f7f7f7; /* Soft light background for better contrast */
+    margin: 0;
+    padding: 0;
+    height: 100vh; /* Ensure the body takes full height */
+  }
+  
+  /* Ensure the header spans the entire width and is at the top */
+  .login-page-header {
+    background-color: #333;
+    color: white;
+    padding: 20px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1000; /* To keep it on top */
+  }
+  
+  /* Logo and Navigation */
+  .login-page-header .logo {
+    font-size: 2rem;
+    font-weight: bold;
+  }
+  
+  .login-page-header nav ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    gap: 20px;
+  }
+  
+  .login-page-header nav ul li {
+    display: inline;
+  }
+  
+  /* Navigation Links */
+.login-page-header nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-size: 1.3rem; /* Increased font size */
+    font-weight: bold; /* Made the font bold */
+    padding: 10px 15px;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .login-page-header nav ul li a:hover {
+    background-color: #61dafb;
+    color: #333;
+  }
+   /* SignUp Page Link */
+  .signup-page .login-link {
+    text-align: center;
+    margin-top: 15px;
+  }
+  
+  .signup-page .login-link a {
+    color: #61dafb;
+    text-decoration: none;
+    font-weight: bold;
+  }
+  
+  .signup-page .login-link a:hover {
+    text-decoration: underline;
+  }
+  
+  
+  /* Ensure there's space for the fixed header */
+  body {
+    padding-top: 80px; /* This creates space below the fixed header */
+  }
+  
+  /* Main Content Area */
+  .login-page {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+    background-color: #f7f7f7;
+  }
+  
+  /* Login Card */
+  .login-card {
+    background-color: white;
+    border-radius: 8px;
+    padding: 40px 40px; /* More padding for a larger card */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 480px; /* Increased size for better appearance */
+    text-align: center;
+    margin-top: 50px;
+    position: relative;
+    z-index: 1; /* Ensure it's above the footer */
+  }
+  
+  .login-card h2 {
+    font-size: 2.5rem; /* Bigger title */
+    margin-bottom: 25px; /* Increased space */
+    color: #333;
+  }
+  
+  .login-card form {
+    display: flex;
+    flex-direction: column;
+    gap: 25px; /* Increased gap between inputs */
+    text-align: left; /* Align form content to the left */
+    width: 100%;
+  }
+  
+  .login-card form div {
+    display: flex;
+    flex-direction: column;
+    gap: 5px; /* Space between label and input */
+  }
+  
+  .login-card label {
+    font-size: 1.1rem;
+    text-align: left; /* Ensure labels are left aligned */
+    color: #333;
+  }
+  
+  .login-card input {
+    padding: 15px; /* Larger input fields */
+    font-size: 1.2rem; /* Bigger font for easier reading */
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    margin-bottom: 15px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  
+  .login-card button {
+    padding: 15px;
+    background-color: #61dafb;
+    color: white;
+    font-size: 1.2rem; /* Larger button text */
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    width: 100%;
+    transition: background-color 0.3s ease;
+  }
+  
+  .login-card button:hover {
+    background-color: #45a1d4;
+  }
+  
+  /* Footer */
+  .footer {
+    background-color: #333;
+    color: white;
+    padding: 20px;
+    text-align: center;
+    margin-top: 50px;
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+  }
+  
+  /* Footer Links */
+  .footer p {
+    margin: 10px 0;
+  }
+  
+  .footer a {
+    color: white;
+    text-decoration: none;
+    margin: 0 10px;
+  }
+  
+  .footer a:hover {
+    background-color: #61dafb;
+    color: #333;
+  }
+  

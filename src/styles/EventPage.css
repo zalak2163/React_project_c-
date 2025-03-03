@@ -1,0 +1,164 @@
+/* Header Section */
+.event-page-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: #333; /* Header background color */
+  color: white;
+  padding: 20px 40px;
+  display: flex;
+  justify-content: space-between; /* Space between logo and nav */
+  align-items: center;
+  z-index: 1000;
+}
+
+.event-page-header .logo {
+  font-size: 2rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.event-page-header nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: 20px; /* Add space between navigation links */
+}
+
+.event-page-header nav ul li a {
+  text-decoration: none;
+  color: white;
+  font-size: 1.1rem;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.event-page-header nav ul li a:hover {
+  background-color: #61dafb; /* Change color on hover */
+  color: black;
+  padding: 8px 12px;
+  border-radius: 5px;
+}
+
+/* Main content area */
+.event-page-content {
+  margin-top: 100px; /* Space for fixed header */
+  padding: 20px;
+  flex-grow: 1;
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* Event list styling */
+.event-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  width: 100%;
+  max-width: 1200px;
+  margin-top: 20px;
+}
+
+/* Event card styling */
+.event-card {
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  width: 250px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin: 10px;
+  position: relative;
+  overflow: hidden;
+}
+
+.event-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.event-card h3 {
+  font-size: 1.4rem;
+  margin-bottom: 15px;
+  color: #333;
+  font-weight: bold;
+}
+
+.event-card p {
+  font-size: 1rem;
+  color: #555;
+  margin-bottom: 15px;
+}
+
+.event-detail-link {
+  display: inline-block;
+  background-color: #007bff;
+  color: white;
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 25px;
+  text-align: center;
+  text-decoration: none;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  width: 100%;
+  cursor: pointer;
+  margin-top: auto;
+  box-shadow: 0 3px 6px rgba(0, 123, 255, 0.3);
+}
+
+.event-detail-link:hover {
+  background-color: #0056b3;
+  transform: translateY(-2px);
+}
+
+.event-detail-link:focus {
+  outline: none;
+  box-shadow: 0 0 5px 2px rgba(0, 123, 255, 0.5);
+}
+
+/* Footer Styling */
+.footer {
+  background-color: #333; /* Same background color as the header */
+  color: white;
+  text-align: center;
+  padding: 20px;
+  width: 100%;
+  position: relative;
+  bottom: 0; /* Ensure it sticks to the bottom of the page */
+  margin-top: auto; /* Push it to the bottom of the content */
+}
+
+/* Make the layout flex so the footer stays at the bottom */
+body, html {
+  height: 100%;
+  margin: 0;
+}
+
+.event-page {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+/* Responsive Design for Cards */
+@media (max-width: 768px) {
+  .event-card {
+    width: 100%;
+    max-width: 300px;
+  }
+
+  .event-detail-link {
+    padding: 12px 20px;
+  }
+}
