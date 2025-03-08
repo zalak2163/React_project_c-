@@ -1,0 +1,35 @@
+#header {
+  font-size: 90px;
+}
+#paragraph {
+  font-size: 30px;
+}
+
+.event-section {
+  padding: 50px 20px; /* Adds padding around the section */
+  font-family: "Arial", sans-serif; /* Change to any font you like */
+  background-color: #f8f9fa; /* Light background color for better contrast */
+}
+
+.event-section h3 {
+  font-size: 36px; /* Larger font size for the title */
+  font-family: "Helvetica", sans-serif; /* Different font for title */
+  color: #333; /* Dark color for title */
+  margin-bottom: 20px;
+}
+
+.event-section p {
+  font-size: 18px; /* Adjust paragraph font size */
+  line-height: 1.6; /* Increased line spacing for readability */
+  color: #555; /* Slightly lighter text color */
+  margin-bottom: 20px;
+}
+
+.event-section em {
+  font-style: italic;
+  font-weight: bold; /* Emphasize the italic text */
+  color: #007bff; /* Color for emphasis */
+}
+.container1 {
+  padding: 80px 120px;
+}
