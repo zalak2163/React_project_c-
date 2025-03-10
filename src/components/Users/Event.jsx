@@ -1,11 +1,14 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { useNavigate, Link } from "react-router-dom";
 import eventService from "../../services/eventService";
-import { Link } from "react-router-dom";
 
 const Event = () => {
   const [events, setEvent] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const navigate = useNavigate();
+
   useEffect(() => {
     eventService
       .getAllEvents()
@@ -18,6 +21,13 @@ const Event = () => {
         setLoading(false);
       });
   }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem("authToken"); // Remove token from localStorage
+    setIsAuthenticated(false);
+    navigate("/login"); // Redirect to login after logout
+  };
+
   return (
     <>
       <div className="content">
@@ -28,9 +38,9 @@ const Event = () => {
               <img
                 src={
                   "https://images.squarespace-cdn.com/content/v1/64b168715a58c023012b3a74/d2088bb5-d583-4e07-b4c2-55d3d1b680c9/Z+logo+no+background.png?format=1500w"
-                } // Replace with the correct path to your logo
+                }
                 alt="Logo"
-                style={{ width: "150px", height: "auto" }} // Adjust logo size as needed
+                style={{ width: "150px", height: "auto" }}
               />
             </a>
             <button
@@ -46,26 +56,33 @@ const Event = () => {
             </button>
             <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
               <div className="navbar-nav ms-auto py-3 px-4">
-                {" "}
-                {/* ms-auto moves it to the right */}
                 <a
                   className="nav-link px-3 py-2 fs-5"
                   aria-current="page"
                   href="/"
                 >
-                  {" "}
-                  {/* Added fs-5 for font size */}
                   Home
                 </a>
                 <a className="nav-link active px-3 py-2 fs-5" href="#">
                   Events
                 </a>
-                <a className="nav-link px-3 py-2 fs-5" href="/login">
-                  Login
-                </a>
-                <a className="nav-link px-3 py-2 fs-5" href="/registration">
-                  Sign Up
-                </a>
+                {!isAuthenticated ? (
+                  <>
+                    <a className="nav-link px-3 py-2 fs-5" href="/login">
+                      Login
+                    </a>
+                    <a className="nav-link px-3 py-2 fs-5" href="/registration">
+                      Sign Up
+                    </a>
+                  </>
+                ) : (
+                  <button
+                    onClick={handleLogout}
+                    className="btn btn-link text-white"
+                  >
+                    Logout
+                  </button>
+                )}
                 <a className="nav-link px-3 py-2 fs-5" href="/cart">
                   Cart
                 </a>
@@ -74,13 +91,10 @@ const Event = () => {
           </div>
         </nav>
 
-        {/* Main content goes here */}
+        {/* Main content */}
         <main className="py-5">
-          {" "}
-          {/* Added py-5 for vertical padding */}
           <div className="event-page-content">
-            <h1 className="mb-4">All Events</h1>{" "}
-            {/* Added margin-bottom for spacing */}
+            <h1 className="mb-4">All Events</h1>
             {loading ? (
               <p>Loading events...</p>
             ) : events.length > 0 ? (
@@ -133,7 +147,6 @@ const Event = () => {
               >
                 <i className="fab fa-facebook-f"></i>
               </a>
-
               <a
                 className="btn text-white btn-floating m-1"
                 style={{ backgroundColor: "#dd4b39" }}
@@ -142,7 +155,6 @@ const Event = () => {
               >
                 <i className="fab fa-google"></i>
               </a>
-
               <a
                 className="btn text-white btn-floating m-1"
                 style={{ backgroundColor: "#ac2bac" }}
@@ -151,7 +163,6 @@ const Event = () => {
               >
                 <i className="fab fa-instagram"></i>
               </a>
-
               <a
                 className="btn text-white btn-floating m-1"
                 style={{ backgroundColor: "#0082ca" }}
@@ -160,7 +171,6 @@ const Event = () => {
               >
                 <i className="fab fa-linkedin-in"></i>
               </a>
-
               <a
                 className="btn text-white btn-floating m-1"
                 style={{ backgroundColor: "#55acee" }}
@@ -169,7 +179,6 @@ const Event = () => {
               >
                 <i className="fab fa-twitter"></i>
               </a>
-
               <a
                 className="btn text-white btn-floating m-1"
                 style={{ backgroundColor: "#333333" }}
@@ -182,31 +191,26 @@ const Event = () => {
           </div>
 
           <section className="mb-4">
-            <div className="container text-center text-md-start mt-5">
-              <div className="row mt-3">
-                <div className="col-md-4 col-lg-3 col-xl-3 mx-auto mb-4">
-                  <h6 className="text-uppercase fw-bold mb-4">Contact</h6>
-                  <p>
-                    <i className="fas fa-home me-3"></i> Brampton, ON, CA
-                  </p>
-                  <p>
-                    <i className="fas fa-envelope me-3"></i>{" "}
-                    znpatel2003@gmail.com
-                  </p>
-                  <p>
-                    <i className="fas fa-phone me-3"></i> +1 (204-595-4790)
-                  </p>
-                </div>
-              </div>
+            <div className="container">
+              <p>
+                <strong>Contact Us:</strong>
+                <br />
+                Event Planning Co.
+                <br />
+                123 Event St, Party City, 00000
+                <br />
+                Phone: (123) 456-7890
+                <br />
+                Email: contact@eventplanningco.com
+              </p>
             </div>
           </section>
 
-          <div
-            className="text-center p-3"
-            style={{ backgroundColor: "rgba(0, 0, 0, 0.05)" }}
-          >
-            © 2025 Copyright
-          </div>
+          <section className="mb-4">
+            <div className="container">
+              <p>&copy; 2025 Event Planning Co. All rights reserved.</p>
+            </div>
+          </section>
         </footer>
       </div>
     </>

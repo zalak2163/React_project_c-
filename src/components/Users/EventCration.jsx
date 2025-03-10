@@ -1,7 +1,12 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import eventService from "../../services/eventService";
+import { Link } from "react-router-dom";
+
+import axios from "axios";
 
 const EventCreation = () => {
+  const [events, setEvent] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [eventDate, setEventDate] = useState("");
@@ -13,27 +18,42 @@ const EventCreation = () => {
   const [ticketPrice, setTicketPrice] = useState(0);
   const [ticketQuantity, setTicketQuantity] = useState(0);
   const [ticketAvailable, setTicketAvailable] = useState(0);
-  const navigate = useNavigate();
+  const [getallevent, setGetAllEvent] = useState([]);
+  const [eventId, setEventId] = useState("");
+  const url = "https://localhost:7166/api/Event";
+  const handlesubmit = (e) => {
+    e.preventDefault(); // Prevent default form submission behavior
+    const data = {
+      title,
+      description,
+      eventDate,
+      location,
+      image,
+      organizerName,
+      organizerId,
+      tickets: [
+        {
+          ticketType,
+          price: ticketPrice,
+          quantity: ticketQuantity,
+          available: ticketAvailable,
+        },
+      ],
+    };
+    axios
+      .post(`${url}`, data)
+      .then((json) => {
+        getallevent();
+        clear();
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
-  function AddUser() {
-    // Check if the required fields are filled
-    if (
-      !title ||
-      !description ||
-      !eventDate ||
-      !location ||
-      !organizerName ||
-      !organizerId ||
-      !ticketType ||
-      !ticketPrice ||
-      !ticketQuantity ||
-      !ticketAvailable
-    ) {
-      alert("All fields are required!");
-      return;
-    }
-
-    let items = {
+  const handleUpdate = () => {
+    const data = {
+      id: eventId,
       title,
       description,
       eventDate,
@@ -51,20 +71,96 @@ const EventCreation = () => {
       ],
     };
 
-    fetch(`https://localhost:7166/api/Event`, {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-type": "application/json",
-      },
-      body: JSON.stringify(items),
-    }).then((result) => {
-      result.json().then((resp) => {
-        console.log(resp);
-        navigate("/login");
+    axios
+      .put(`${url}/${eventId}`, data)
+      .then((json) => {
+        setGetAllEvent(json.data);
+        clear();
+      })
+      .catch((error) => {
+        console.log(error);
       });
-    });
-  }
+  };
+
+  const handleEdit = (id) => {
+    if (id > 0) {
+      setEventId(id);
+      axios
+        .get(`https://localhost:7166/api/Event/${id}`) // Use GET to fetch the specific event
+        .then((json) => {
+          if (json.data) {
+            setTitle(json.data.title);
+            setDescription(json.data.description);
+            setEventDate(json.data.eventDate);
+            setLocation(json.data.location);
+            setImage(json.data.image);
+            setOrganizerName(json.data.organizerName);
+            setOrganizerId(json.data.organizerId);
+            setTicketType(json.data.ticketType);
+            setTicketPrice(json.data.ticketPrice);
+            setTicketQuantity(json.data.ticketQuantity);
+            setTicketAvailable(json.data.ticketAvailable);
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  };
+
+  const handleDelete = (id) => {
+    if (id > 0) {
+      axios
+        .delete(`${url}/${id}`) // Use DELETE method for deleting the event
+        .then((json) => {
+          getallevent();
+          clear();
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  };
+
+  // const getEvents = () => {
+  //   axios
+  //     .get(`${url}`)
+  //     .then((json) => {
+  //       setGetAllEvent(json.data.events);
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  // };
+
+  // useEffect(() => {
+  //   getEvents();
+  // }, []);
+  useEffect(() => {
+    eventService
+      .getAllEvents()
+      .then((response) => {
+        setEvent(response.data);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error("Error fetching events:", error);
+        setLoading(false);
+      });
+  }, []);
+  const clear = () => {
+    setTitle("");
+    setDescription("");
+    setEventDate("");
+    setLocation("");
+    setImage("");
+    setOrganizerName("");
+    setOrganizerId("");
+    setTicketType("");
+    setTicketPrice("");
+    setTicketQuantity("");
+    setTicketAvailable("");
+  };
 
   return (
     <div>
@@ -282,12 +378,21 @@ const EventCreation = () => {
 
                           <div className="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
                             <button
-                              type="submit"
+                              type="button"
                               className="btn btn-primary btn-lg"
-                              onClick={AddUser}
+                              onClick={(e) => handlesubmit(e)}
                             >
                               Create Event
                             </button>
+                            {eventId && (
+                              <button
+                                type="button"
+                                className="btn btn-warning btn-lg"
+                                onClick={(e) => handleUpdate(e)}
+                              >
+                                Update Event
+                              </button>
+                            )}
                           </div>
                         </div>
                       </div>
@@ -306,6 +411,63 @@ const EventCreation = () => {
             </div>
           </div>
         </section>
+        {/* Main content */}
+        <main className="py-5">
+          <div className="event-page-content">
+            <h1 className="mb-4">All Events</h1>
+            {loading ? (
+              <p>Loading events...</p>
+            ) : events.length > 0 ? (
+              <div className="row">
+                {events.map((event) => (
+                  <div key={event.id} className="col-md-4 mb-4">
+                    <div className="card event-card">
+                      <img
+                        src={event.image}
+                        alt={event.title}
+                        className="card-img-top"
+                        style={{ height: "200px", objectFit: "cover" }}
+                      />
+                      <div className="card-body">
+                        <h5 className="card-title">{event.title}</h5>
+                        <p className="card-text">
+                          <strong>Location:</strong> {event.location}
+                        </p>
+                        <p className="card-text">
+                          <strong>Date:</strong>{" "}
+                          {new Date(event.eventDate).toLocaleDateString()}
+                        </p>
+                        <Link
+                          to={`/eventDetails/${event.id}`}
+                          className="btn btn-primary"
+                          style={{ marginRight: "10px" }}
+                        >
+                          View Details
+                        </Link>
+                        <Link
+                          className="btn btn-primary"
+                          style={{ marginRight: "10px" }}
+                          // onClick={() => alert(event.id)}
+                          onClick={() => handleEdit(event.id)}
+                        >
+                          Edit
+                        </Link>
+                        <Link
+                          className="btn btn-primary"
+                          onClick={() => handleDelete(event.id)}
+                        >
+                          Delete
+                        </Link>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <p>No events found</p>
+            )}
+          </div>
+        </main>
       </main>
 
       {/* Footer */}
@@ -320,46 +482,7 @@ const EventCreation = () => {
             >
               <i className="fab fa-facebook-f"></i>
             </a>
-            <a
-              className="btn text-white btn-floating m-1"
-              style={{ backgroundColor: "#dd4b39" }}
-              href="https://mail.google.com"
-              role="button"
-            >
-              <i className="fab fa-google"></i>
-            </a>
-            <a
-              className="btn text-white btn-floating m-1"
-              style={{ backgroundColor: "#ac2bac" }}
-              href="https://www.instagram.com"
-              role="button"
-            >
-              <i className="fab fa-instagram"></i>
-            </a>
-            <a
-              className="btn text-white btn-floating m-1"
-              style={{ backgroundColor: "#0082ca" }}
-              href="https://www.linkedin.com"
-              role="button"
-            >
-              <i className="fab fa-linkedin-in"></i>
-            </a>
-            <a
-              className="btn text-white btn-floating m-1"
-              style={{ backgroundColor: "#55acee" }}
-              href="https://twitter.com"
-              role="button"
-            >
-              <i className="fab fa-twitter"></i>
-            </a>
-            <a
-              className="btn text-white btn-floating m-1"
-              style={{ backgroundColor: "#333333" }}
-              href="https://github.com"
-              role="button"
-            >
-              <i className="fab fa-github"></i>
-            </a>
+            {/* Other footer icons */}
           </section>
         </div>
 

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import eventService from "../../services/eventService";
 
 const EventDetails = () => {
@@ -131,6 +131,19 @@ const EventDetails = () => {
                       ) : (
                         <p>No ticket details available.</p>
                       )}
+                      <Link
+                        className="btn btn-primary"
+                        style={{ marginRight: "20px" }}
+                      >
+                        Add to cart
+                      </Link>
+
+                      <Link
+                        className="btn btn-primary"
+                        onClick={`/checkoutPage`}
+                      >
+                        Buy Tickets Now
+                      </Link>
                     </div>
                   </div>
                 </div>

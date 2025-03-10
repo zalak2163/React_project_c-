@@ -220,7 +220,6 @@ const Registration = () => {
             >
               <i className="fab fa-facebook-f"></i>
             </a>
-
             <a
               className="btn text-white btn-floating m-1"
               style={{ backgroundColor: "#dd4b39" }}
@@ -229,7 +228,6 @@ const Registration = () => {
             >
               <i className="fab fa-google"></i>
             </a>
-
             <a
               className="btn text-white btn-floating m-1"
               style={{ backgroundColor: "#ac2bac" }}
@@ -238,7 +236,6 @@ const Registration = () => {
             >
               <i className="fab fa-instagram"></i>
             </a>
-
             <a
               className="btn text-white btn-floating m-1"
               style={{ backgroundColor: "#0082ca" }}
@@ -247,7 +244,6 @@ const Registration = () => {
             >
               <i className="fab fa-linkedin-in"></i>
             </a>
-
             <a
               className="btn text-white btn-floating m-1"
               style={{ backgroundColor: "#55acee" }}
@@ -256,7 +252,6 @@ const Registration = () => {
             >
               <i className="fab fa-twitter"></i>
             </a>
-
             <a
               className="btn text-white btn-floating m-1"
               style={{ backgroundColor: "#333333" }}
@@ -269,30 +264,26 @@ const Registration = () => {
         </div>
 
         <section className="mb-4">
-          <div className="container text-center text-md-start mt-5">
-            <div className="row mt-3">
-              <div className="col-md-4 col-lg-3 col-xl-3 mx-auto mb-4">
-                <h6 className="text-uppercase fw-bold mb-4">Contact</h6>
-                <p>
-                  <i className="fas fa-home me-3"></i> Brampton, ON, CA
-                </p>
-                <p>
-                  <i className="fas fa-envelope me-3"></i> znpatel2003@gmail.com
-                </p>
-                <p>
-                  <i className="fas fa-phone me-3"></i> +1 (204-595-4790)
-                </p>
-              </div>
-            </div>
+          <div className="container">
+            <p>
+              <strong>Contact Us:</strong>
+              <br />
+              Event Planning Co.
+              <br />
+              123 Event St, Party City, 00000
+              <br />
+              Phone: (123) 456-7890
+              <br />
+              Email: contact@eventplanningco.com
+            </p>
           </div>
         </section>
 
-        <div
-          className="text-center p-3"
-          style={{ backgroundColor: "rgba(0, 0, 0, 0.05)" }}
-        >
-          © 2025 Copyright
-        </div>
+        <section className="mb-4">
+          <div className="container">
+            <p>&copy; 2025 Event Planning Co. All rights reserved.</p>
+          </div>
+        </section>
       </footer>
     </>
   );
