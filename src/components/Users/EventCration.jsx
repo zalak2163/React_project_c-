@@ -22,7 +22,16 @@ const EventCreation = () => {
   const [eventId, setEventId] = useState("");
   const url = "https://localhost:7166/api/Event";
   const handlesubmit = (e) => {
-    e.preventDefault(); // Prevent default form submission behavior
+    e.preventDefault();
+
+    // Create the ticket object
+    const ticket = {
+      ticketType,
+      price: ticketPrice,
+      quantity: ticketQuantity,
+      available: ticketAvailable,
+    };
+
     const data = {
       title,
       description,
@@ -31,20 +40,18 @@ const EventCreation = () => {
       image,
       organizerName,
       organizerId,
-      tickets: [
-        {
-          ticketType,
-          price: ticketPrice,
-          quantity: ticketQuantity,
-          available: ticketAvailable,
-        },
-      ],
+      tickets: [ticket], // Wrap the ticket object in an array
     };
+
+    // Debugging step to verify ticket data
+    console.log(data);
+
+    // Send data to backend
     axios
       .post(`${url}`, data)
       .then((json) => {
-        getallevent();
-        clear();
+        setEvent([...events, json.data]);
+        clear(); // Clear the form after successful submit
       })
       .catch((error) => {
         console.log(error);
@@ -52,8 +59,14 @@ const EventCreation = () => {
   };
 
   const handleUpdate = () => {
+    const ticket = {
+      ticketType,
+      price: ticketPrice,
+      quantity: ticketQuantity,
+      available: ticketAvailable,
+    };
+
     const data = {
-      id: eventId,
       title,
       description,
       eventDate,
@@ -61,24 +74,26 @@ const EventCreation = () => {
       image,
       organizerName,
       organizerId,
-      tickets: [
-        {
-          ticketType,
-          price: ticketPrice,
-          quantity: ticketQuantity,
-          available: ticketAvailable,
-        },
-      ],
+      tickets: [ticket], // Wrap the ticket object in an array
     };
+
+    // Log data to ensure it's structured correctly
+    console.log("Updating event with data:", data);
 
     axios
       .put(`${url}/${eventId}`, data)
-      .then((json) => {
-        setGetAllEvent(json.data);
-        clear();
+      .then((response) => {
+        console.log("Updated event data:", response.data); // Log response to ensure updated event is received
+        setEvent((prevEvents) =>
+          prevEvents.map((event) =>
+            event.id === eventId ? response.data : event
+          )
+        );
+        clear(); // Clear form after update
+        console.log("Event updated successfully:", response.data);
       })
       .catch((error) => {
-        console.log(error);
+        console.log("Error updating event:", error);
       });
   };
 
@@ -86,20 +101,31 @@ const EventCreation = () => {
     if (id > 0) {
       setEventId(id);
       axios
-        .get(`https://localhost:7166/api/Event/${id}`) // Use GET to fetch the specific event
+        .get(`https://localhost:7166/api/Event/${id}`)
         .then((json) => {
           if (json.data) {
             setTitle(json.data.title);
             setDescription(json.data.description);
-            setEventDate(json.data.eventDate);
+
+            // Format eventDate to 'yyyy-MM-dd' format
+            const formattedDate = new Date(json.data.eventDate)
+              .toISOString()
+              .split("T")[0];
+            setEventDate(formattedDate); // Set the formatted date
+
             setLocation(json.data.location);
             setImage(json.data.image);
             setOrganizerName(json.data.organizerName);
             setOrganizerId(json.data.organizerId);
-            setTicketType(json.data.ticketType);
-            setTicketPrice(json.data.ticketPrice);
-            setTicketQuantity(json.data.ticketQuantity);
-            setTicketAvailable(json.data.ticketAvailable);
+
+            // Handle ticket data if available
+            if (json.data.tickets && json.data.tickets.length > 0) {
+              const ticket = json.data.tickets[0];
+              setTicketType(ticket.ticketType || "");
+              setTicketPrice(ticket.price || 0);
+              setTicketQuantity(ticket.quantity || 0);
+              setTicketAvailable(ticket.available || 0);
+            }
           }
         })
         .catch((error) => {
@@ -320,6 +346,7 @@ const EventCreation = () => {
                           </div>
 
                           {/* Ticket Information */}
+                          {/* Ticket Information */}
                           <div className="d-flex flex-row align-items-center mb-4">
                             <i className="fas fa-ticket-alt fa-lg me-3 fa-fw"></i>
                             <div className="form-outline flex-fill mb-0">
@@ -327,7 +354,7 @@ const EventCreation = () => {
                                 type="text"
                                 className="form-control"
                                 value={ticketType}
-                                onChange={(e) => setTicketType(e.target.value)}
+                                onChange={(e) => setTicketType(e.target.value)} // Capture ticket type input
                                 placeholder="Ticket Type"
                               />
                             </div>
@@ -340,7 +367,7 @@ const EventCreation = () => {
                                 type="number"
                                 className="form-control"
                                 value={ticketPrice}
-                                onChange={(e) => setTicketPrice(e.target.value)}
+                                onChange={(e) => setTicketPrice(e.target.value)} // Capture ticket price input
                                 placeholder="Ticket Price"
                               />
                             </div>
@@ -355,7 +382,7 @@ const EventCreation = () => {
                                 value={ticketQuantity}
                                 onChange={(e) =>
                                   setTicketQuantity(e.target.value)
-                                }
+                                } // Capture ticket quantity input
                                 placeholder="Ticket Quantity"
                               />
                             </div>
@@ -370,7 +397,7 @@ const EventCreation = () => {
                                 value={ticketAvailable}
                                 onChange={(e) =>
                                   setTicketAvailable(e.target.value)
-                                }
+                                } // Capture ticket availability input
                                 placeholder="Tickets Available"
                               />
                             </div>
@@ -420,7 +447,10 @@ const EventCreation = () => {
             ) : events.length > 0 ? (
               <div className="row">
                 {events.map((event) => (
-                  <div key={event.id} className="col-md-4 mb-4">
+                  <div
+                    key={event.id || `${event.title}-${event.location}`}
+                    className="col-md-4 mb-4"
+                  >
                     <div className="card event-card">
                       <img
                         src={event.image}
@@ -447,7 +477,6 @@ const EventCreation = () => {
                         <Link
                           className="btn btn-primary"
                           style={{ marginRight: "10px" }}
-                          // onClick={() => alert(event.id)}
                           onClick={() => handleEdit(event.id)}
                         >
                           Edit
