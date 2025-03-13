@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import eventService from "../../services/eventService";
+import axios from "axios";
 
 const EventDetails = () => {
   const { id } = useParams(); // Extract id from URL
@@ -22,6 +23,42 @@ const EventDetails = () => {
         });
     }
   }, [id]);
+  const [userId, setUserId] = useState(5); // Mock the userId (replace this later with actual user authentication)
+
+  const handleAddticket = (ticketId) => {
+    if (!userId) {
+      console.error("User ID is missing! Please log in.");
+      return;
+    }
+
+    const eventId = eventbyid.id;
+    const quantity = 1; // Example: set the quantity to 1
+    const totalPrice = eventbyid.tickets.find(
+      (ticket) => ticket.id === ticketId
+    )?.price;
+
+    const data = {
+      UserId: userId, // Use the mocked userId
+      EventId: eventId,
+      TicketId: ticketId,
+      Quantity: quantity,
+      TotalPrice: totalPrice,
+      PaymentStatus: "Pending", // Adjust if needed
+    };
+
+    axios
+      .post("https://localhost:7166/api/Purchase", data)
+      .then((result) => {
+        if (result.status === 201) {
+          alert("Data added successfully!");
+        } else {
+          alert("Data not added!");
+        }
+      })
+      .catch((error) => {
+        console.error("Error adding ticket:", error.response?.data || error);
+      });
+  };
 
   return (
     <div className="content">
@@ -107,44 +144,40 @@ const EventDetails = () => {
                     </h4>
 
                     {/* Displaying ticket details */}
-                    <div className="ticket-details">
-                      {eventbyid.tickets && eventbyid.tickets.length > 0 ? (
-                        eventbyid.tickets.map((ticket) => (
-                          <div
-                            key={ticket.id}
-                            className="ticket-info mb-3 p-3 border rounded-3 shadow-sm"
+                    {eventbyid.tickets && eventbyid.tickets.length > 0 ? (
+                      eventbyid.tickets.map((ticket) => (
+                        <div
+                          key={ticket.id}
+                          className="ticket-info mb-3 p-3 border rounded-3 shadow-sm"
+                        >
+                          <p>
+                            <strong>Ticket Type:</strong> {ticket.ticketType}
+                          </p>
+                          <p>
+                            <strong>Price:</strong> ${ticket.price}
+                          </p>
+                          <p>
+                            <strong>Available:</strong> {ticket.available}
+                          </p>
+                          <p>
+                            <strong>Quantity:</strong> {ticket.quantity}
+                          </p>
+                          <button
+                            className="btn btn-primary"
+                            style={{ marginRight: "20px" }}
+                            onClick={() => handleAddticket(ticket.id)} // Now `ticket` is in scope here
                           >
-                            <p>
-                              <strong>Ticket Type:</strong> {ticket.ticketType}
-                            </p>
-                            <p>
-                              <strong>Price:</strong> ${ticket.price}
-                            </p>
-                            <p>
-                              <strong>Available:</strong> {ticket.available}
-                            </p>
-                            <p>
-                              <strong>Quantity:</strong> {ticket.quantity}
-                            </p>
-                          </div>
-                        ))
-                      ) : (
-                        <p>No ticket details available.</p>
-                      )}
-                      <Link
-                        className="btn btn-primary"
-                        style={{ marginRight: "20px" }}
-                      >
-                        Add to cart
-                      </Link>
-
-                      <Link
-                        className="btn btn-primary"
-                        onClick={`/checkoutPage`}
-                      >
-                        Buy Tickets Now
-                      </Link>
-                    </div>
+                            <i
+                              className="fas fa-shopping-cart"
+                              style={{ marginRight: "8px" }}
+                            ></i>
+                            Add to cart
+                          </button>
+                        </div>
+                      ))
+                    ) : (
+                      <p>No ticket details available.</p>
+                    )}
                   </div>
                 </div>
               </div>

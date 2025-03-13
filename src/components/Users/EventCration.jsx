@@ -21,6 +21,7 @@ const EventCreation = () => {
   const [getallevent, setGetAllEvent] = useState([]);
   const [eventId, setEventId] = useState("");
   const url = "https://localhost:7166/api/Event";
+  
   const handlesubmit = (e) => {
     e.preventDefault();
 

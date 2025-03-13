@@ -33,3 +33,57 @@
 .container1 {
   padding: 80px 120px;
 }
+@media (min-width: 1025px) {
+  .h-custom {
+    height: 100vh !important;
+  }
+}
+.gradient-custom {
+  background: linear-gradient(
+    to right,
+    rgba(106, 17, 203, 1),
+    rgba(37, 117, 252, 1)
+  );
+}
+
+.card-body {
+  padding: 20px;
+}
+
+.card-header {
+  background-color: #f1f1f1;
+  padding: 10px;
+}
+
+.bg-image img {
+  max-height: 200px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.btn-primary,
+.btn-danger {
+  margin-right: 10px;
+}
+
+h5.mb-0 {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+ul.list-group-flush {
+  padding-left: 0;
+}
+
+ul.list-group-flush .list-group-item {
+  border: none;
+  padding: 10px 0;
+}
+
+.btn-lg {
+  width: 100%;
+  background-color: #28a745;
+  border: none;
+  color: white;
+  font-size: 18px;
+}
