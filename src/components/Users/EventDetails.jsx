@@ -61,11 +61,11 @@ const EventDetails = () => {
   };
 
   return (
-    <div className="content">
+    <div className="content d-flex flex-column min-vh-100">
       {/* Navbar */}
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
         <div className="container-fluid">
-          <a className="navbar-brand" href="#">
+          <a className="navbar-brand" href="/">
             <img
               src={
                 "https://images.squarespace-cdn.com/content/v1/64b168715a58c023012b3a74/d2088bb5-d583-4e07-b4c2-55d3d1b680c9/Z+logo+no+background.png?format=1500w"
@@ -112,7 +112,7 @@ const EventDetails = () => {
       </nav>
 
       {/* Main content */}
-      <main className="py-5">
+      <main className="py-5 flex-grow-1">
         <div className="event-page-content text-center">
           <h1 className="mb-4">Event Details</h1>
           {loading ? (
@@ -122,13 +122,21 @@ const EventDetails = () => {
               <div className="col-md-6 mb-4">
                 <div
                   className="card shadow-lg rounded-3"
-                  style={{ border: "none" }}
+                  style={{
+                    border: "none",
+                    transition: "transform 0.3s ease-in-out",
+                  }}
                 >
                   <img
                     src={eventbyid.image}
                     alt={eventbyid.title}
                     className="card-img-top"
-                    style={{ height: "250px", objectFit: "cover" }}
+                    style={{
+                      height: "250px",
+                      objectFit: "cover",
+                      borderTopLeftRadius: "0.375rem",
+                      borderTopRightRadius: "0.375rem",
+                    }}
                   />
                   <div className="card-body bg-light">
                     <h5 className="card-title">{eventbyid.title}</h5>
@@ -189,7 +197,7 @@ const EventDetails = () => {
       </main>
 
       {/* Footer */}
-      <footer className="bg-dark text-white text-center">
+      <footer className="bg-dark text-white text-center py-4 mt-auto">
         <div className="container p-4 pb-0">
           <section className="mb-4">
             {/* Social Media Icons */}
@@ -245,30 +253,26 @@ const EventDetails = () => {
         </div>
 
         <section className="mb-4">
-          <div className="container text-center text-md-start mt-5">
-            <div className="row mt-3">
-              <div className="col-md-4 col-lg-3 col-xl-3 mx-auto mb-4">
-                <h6 className="text-uppercase fw-bold mb-4">Contact</h6>
-                <p>
-                  <i className="fas fa-home me-3"></i> Brampton, ON, CA
-                </p>
-                <p>
-                  <i className="fas fa-envelope me-3"></i> znpatel2003@gmail.com
-                </p>
-                <p>
-                  <i className="fas fa-phone me-3"></i> +1 (204-595-4790)
-                </p>
-              </div>
-            </div>
+          <div className="container">
+            <p>
+              <strong>Contact Us:</strong>
+              <br />
+              Event Planning Co.
+              <br />
+              123 Event St, Party City, 00000
+              <br />
+              Phone: (123) 456-7890
+              <br />
+              Email: contact@eventplanningco.com
+            </p>
           </div>
         </section>
 
-        <div
-          className="text-center p-3"
-          style={{ backgroundColor: "rgba(0, 0, 0, 0.05)" }}
-        >
-          © 2025 Copyright
-        </div>
+        <section className="mb-4">
+          <div className="container">
+            <p>&copy; 2025 Event Planning Co. All rights reserved.</p>
+          </div>
+        </section>
       </footer>
     </div>
   );

@@ -9,6 +9,7 @@ const Event = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const navigate = useNavigate();
 
+  // Fetch all events from the backend
   useEffect(() => {
     eventService
       .getAllEvents()
@@ -22,6 +23,7 @@ const Event = () => {
       });
   }, []);
 
+  // Handle user logout
   const handleLogout = () => {
     localStorage.removeItem("authToken"); // Remove token from localStorage
     setIsAuthenticated(false);
@@ -34,15 +36,19 @@ const Event = () => {
         {/* Navbar */}
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
           <div className="container-fluid">
-            <a className="navbar-brand" href="#">
+            {/* Logo is now a clickable link to the homepage */}
+            <Link className="navbar-brand" to="/">
               <img
                 src={
                   "https://images.squarespace-cdn.com/content/v1/64b168715a58c023012b3a74/d2088bb5-d583-4e07-b4c2-55d3d1b680c9/Z+logo+no+background.png?format=1500w"
                 }
                 alt="Logo"
                 style={{ width: "150px", height: "auto" }}
+                className="img-fluid" // Makes logo responsive
               />
-            </a>
+            </Link>
+
+            {/* Navbar toggler for smaller screens */}
             <button
               className="navbar-toggler"
               type="button"
@@ -54,28 +60,35 @@ const Event = () => {
             >
               <span className="navbar-toggler-icon"></span>
             </button>
+
             <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
               <div className="navbar-nav ms-auto py-3 px-4">
-                <a
+                <Link
                   className="nav-link px-3 py-2 fs-5"
                   aria-current="page"
-                  href="/"
+                  to="/"
                 >
                   Home
-                </a>
-                <a className="nav-link active px-3 py-2 fs-5" href="#">
+                </Link>
+                <Link className="nav-link active px-3 py-2 fs-5" to="#">
                   Events
-                </a>
+                </Link>
+
+                {/* Show login/signup buttons if not authenticated */}
                 {!isAuthenticated ? (
                   <>
-                    <a className="nav-link px-3 py-2 fs-5" href="/login">
+                    <Link className="nav-link px-3 py-2 fs-5" to="/login">
                       Login
-                    </a>
-                    <a className="nav-link px-3 py-2 fs-5" href="/registration">
+                    </Link>
+                    <Link
+                      className="nav-link px-3 py-2 fs-5"
+                      to="/registration"
+                    >
                       Sign Up
-                    </a>
+                    </Link>
                   </>
                 ) : (
+                  // Show logout button if authenticated
                   <button
                     onClick={handleLogout}
                     className="btn btn-link text-white"
@@ -83,9 +96,10 @@ const Event = () => {
                     Logout
                   </button>
                 )}
-                <a className="nav-link px-3 py-2 fs-5" href="/cart">
+
+                <Link className="nav-link px-3 py-2 fs-5" to="/cart">
                   Cart
-                </a>
+                </Link>
               </div>
             </div>
           </div>

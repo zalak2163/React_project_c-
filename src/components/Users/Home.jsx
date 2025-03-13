@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import "../../components/App.css";
+// import "../../components/App.css"; // Import CSS for styling
 
 const Home = () => {
-  const [input, setInput] = useState("");
-  const [filteredEvents, setFilteredEvents] = useState([]);
-  const [location, setLocation] = useState("");
-  const [date, setDate] = useState("");
-  const [isAdmin, setIsAdmin] = useState(false);
+  const [input, setInput] = useState(""); // For the event search input
+  const [filteredEvents, setFilteredEvents] = useState([]); // Holds filtered events based on user input
+  const [location, setLocation] = useState(""); // For the location filter
+  const [date, setDate] = useState(""); // For the date filter
+  const [isAdmin, setIsAdmin] = useState(false); // To check if the user is an admin
+  const navigate = useNavigate(); // Navigation hook to navigate between pages
 
-  const navigate = useNavigate();
-
+  // useEffect to check user role and set admin status based on the JWT token
   useEffect(() => {
     const token =
       localStorage.getItem("token") || sessionStorage.getItem("token");
@@ -22,22 +22,20 @@ const Home = () => {
     }
   }, []);
 
+  // Function to fetch events based on filters (title, location, and date)
   const fetchData = (value, location, date) => {
     fetch("https://localhost:7166/api/Event")
       .then((response) => response.json())
       .then((json) => {
+        // Filter events based on user inputs
         const results = json.filter((event) => {
           const matchesTitle = value
-            ? event.title &&
-              event.title.toLowerCase().includes(value.toLowerCase())
+            ? event.title?.toLowerCase().includes(value.toLowerCase())
             : true;
           const matchesLocation = location
-            ? event.location &&
-              event.location.toLowerCase().includes(location.toLowerCase())
+            ? event.location?.toLowerCase().includes(location.toLowerCase())
             : true;
-          const matchesDate = date
-            ? event.date && event.date.slice(0, 10) === date
-            : true; // Adjusting for date comparison (assuming date format is 'YYYY-MM-DD')
+          const matchesDate = date ? event.date.slice(0, 10) === date : true; // Adjust for date format
 
           return matchesTitle && matchesLocation && matchesDate;
         });
@@ -45,19 +43,22 @@ const Home = () => {
       });
   };
 
+  // Update state when user types in the search input
   const handleInputChange = (value) => {
     setInput(value);
   };
 
+  // Update state for location filter
   const handleLocationChange = (value) => {
     setLocation(value);
   };
 
+  // Update state for date filter
   const handleDateChange = (value) => {
     setDate(value);
   };
 
-  // Use Effect Hook to trigger search after input, location, or date change
+  // Trigger search when input, location, or date change
   useEffect(() => {
     if (input || location || date) {
       fetchData(input, location, date);
@@ -109,23 +110,17 @@ const Home = () => {
               <a className="nav-link px-3 py-2 fs-5" href="/checkoutPage">
                 CheckoutPage
               </a>
-              {
+              {isAdmin && (
                 <a className="nav-link px-3 py-2 fs-5" href="/eventcration">
                   Event Creation
                 </a>
-              }
-              {/* <a className="nav-link px-3 py-2 fs-5" href="/eventDashboard">
-                Event Dashboard
-              </a> */}
-              {/* <a className="nav-link px-3 py-2 fs-5" href="/eventEdit">
-                EventEdit
-              </a> */}
+              )}
             </div>
           </div>
         </div>
       </nav>
 
-      {/* Hero Image Section */}
+      {/* Hero Section */}
       <section
         style={{
           backgroundImage: `url(https://t3.ftcdn.net/jpg/09/76/43/34/360_F_976433484_gIYI3duQPBnoOnIp7xPM8zbrDuuBK4Ss.jpg)`,
@@ -139,56 +134,73 @@ const Home = () => {
           textAlign: "center",
         }}
       >
-        <div>
-          <h1 id="header">Welcome to Our Event Planning</h1>
-          <p id="paragraph">Your perfect event starts here!</p>
-          <input
-            type="text"
-            placeholder="Search for an event..."
-            value={input}
-            onChange={(e) => handleInputChange(e.target.value)}
-            className="form-control"
-            style={{
-              width: "700px",
-              marginLeft: "300px",
-              marginTop: "20px",
-              backgroundColor: " rgba(255, 255, 255, 0.7)",
-            }}
-          />
-          <input
-            type="text"
-            placeholder="Location"
-            value={location}
-            onChange={(e) => handleLocationChange(e.target.value)}
-            className="form-control"
-            style={{
-              width: "700px",
-              marginLeft: "300px",
-              marginTop: "20px",
-              backgroundColor: " rgba(255, 255, 255, 0.7)",
-            }}
-          />
-          <input
-            type="date"
-            value={date}
-            onChange={(e) => handleDateChange(e.target.value)}
-            className="form-control"
-            style={{
-              width: "700px",
-              marginLeft: "300px",
-              marginTop: "20px",
-              backgroundColor: " rgba(255, 255, 255, 0.7)",
-            }}
-          />
+        <div className="text-center">
+          <h1
+            id="header"
+            className="display-2 fw-bold"
+            style={{ fontSize: "6rem" }} // Larger font size for the header
+          >
+            Welcome to Our Event Planning
+          </h1>
+          <p
+            id="paragraph"
+            className="lead fw-bold"
+            style={{ fontSize: "3rem" }} // Larger font size for the paragraph
+          >
+            Your perfect event starts here!
+          </p>
+
+          <div className="container">
+            <div className="row justify-content-center">
+              <div className="col-12 col-md-8 col-lg-6">
+                <input
+                  type="text"
+                  placeholder="Search for an event..."
+                  value={input}
+                  onChange={(e) => handleInputChange(e.target.value)}
+                  className="form-control mb-3"
+                  style={{
+                    backgroundColor: "rgba(255, 255, 255, 0.7)", // Background color for inputs
+                    fontSize: "1.2rem", // Larger font size for inputs
+                  }}
+                />
+              </div>
+              <div className="col-12 col-md-8 col-lg-6">
+                <input
+                  type="text"
+                  placeholder="Location"
+                  value={location}
+                  onChange={(e) => handleLocationChange(e.target.value)}
+                  className="form-control mb-3"
+                  style={{
+                    backgroundColor: "rgba(255, 255, 255, 0.7)", // Background color for inputs
+                    fontSize: "1.2rem", // Larger font size for inputs
+                  }}
+                />
+              </div>
+              <div className="col-12 col-md-8 col-lg-6">
+                <input
+                  type="date"
+                  value={date}
+                  onChange={(e) => handleDateChange(e.target.value)}
+                  className="form-control mb-3"
+                  style={{
+                    backgroundColor: "rgba(255, 255, 255, 0.7)", // Background color for inputs
+                    fontSize: "1.2rem", // Larger font size for inputs
+                  }}
+                />
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
-      {/* Display Search Results as Cards */}
+      {/* Display Filtered Events */}
       {filteredEvents.length > 0 && (
         <div className="container my-5">
           <div className="row">
             {filteredEvents.map((event, index) => (
-              <div className="col-md-4 mb-4" key={index}>
+              <div className="col-md-4 col-sm-6 mb-4" key={index}>
                 <div className="card">
                   <div className="card-body">
                     <img
@@ -211,6 +223,8 @@ const Home = () => {
           </div>
         </div>
       )}
+
+      {/* Event Planning Section */}
       <div className="container1 text-center event-section">
         <h3>EVENT PLANNING & MANAGEMENT</h3>
         <p>
@@ -218,14 +232,12 @@ const Home = () => {
         </p>
         <p>
           Our team specializes in organizing and managing events of all sizes.
-          From intimate gatherings to grand celebrations, we handle every detail
-          with care and precision. Whether it’s a corporate event, wedding, or a
-          concert, we ensure everything runs smoothly so you can enjoy the
-          occasion. Let us help you create unforgettable moments with seamless
-          event coordination, creative concepts, and expert execution.
+          Whether it’s a wedding, corporate event, or concert, we handle all the
+          details.
         </p>
       </div>
-      {/* Footer */}
+
+      {/* Footer Section */}
       <footer className="bg-dark text-white text-center">
         <div className="container p-4 pb-0">
           <section className="mb-4">
@@ -270,14 +282,6 @@ const Home = () => {
             >
               <i className="fab fa-twitter"></i>
             </a>
-            <a
-              className="btn text-white btn-floating m-1"
-              style={{ backgroundColor: "#333333" }}
-              href="https://github.com"
-              role="button"
-            >
-              <i className="fab fa-github"></i>
-            </a>
           </section>
         </div>
 
@@ -286,12 +290,9 @@ const Home = () => {
             <p>
               <strong>Contact Us:</strong>
               <br />
-              Event Planning Co.
-              <br />
-              123 Event St, Party City, 00000
-              <br />
-              Phone: (123) 456-7890
-              <br />
+              Event Planning Co. <br />
+              123 Event St, Party City, 00000 <br />
+              Phone: (123) 456-7890 <br />
               Email: contact@eventplanningco.com
             </p>
           </div>
